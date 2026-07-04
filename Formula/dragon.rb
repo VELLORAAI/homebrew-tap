@@ -5,7 +5,7 @@
 class Dragon < Formula
   desc "AI coding agent — thin client for the Dragon Code gateway"
   homepage "https://github.com/VELLORAAI/dragoncode-public-dist"
-  version "1.2.0"
+  version "1.1.9"
   license :cannot_represent
 
   on_macos do
