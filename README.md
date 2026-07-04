@@ -3,7 +3,7 @@
 Install [Dragon Code](https://github.com/VELLORAAI/dragoncode-public-dist) with Homebrew on macOS (Apple Silicon) and Linux:
 
 ```sh
-brew install vellorai/tap/dragon
+brew install velloraai/tap/dragon
 ```
 
 Upgrade to the latest release:
@@ -15,7 +15,7 @@ brew upgrade dragon
 Or tap first, then install:
 
 ```sh
-brew tap vellorai/tap
+brew tap velloraai/tap
 brew install dragon
 ```
 
