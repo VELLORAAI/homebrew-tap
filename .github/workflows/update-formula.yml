@@ -1,0 +1,61 @@
+name: update-formula
+
+# Self-updating tap: on a schedule (and on demand) this checks the Dragon Code
+# distribution repo's latest STABLE release and regenerates Formula/dragon.rb if
+# it drifted. Reads the dist repo's PUBLIC releases (no auth) and pushes to THIS
+# repo with the built-in GITHUB_TOKEN — so no cross-repo token is ever needed.
+
+on:
+  schedule:
+    - cron: "*/30 * * * *" # every 30 minutes
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-formula
+  cancel-in-progress: false
+
+env:
+  DIST_REPO: VELLORAAI/dragoncode-public-dist
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve latest stable release
+        id: rel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # /releases/latest excludes prereleases and drafts.
+          v="$(gh api "repos/${DIST_REPO}/releases/latest" --jq '.tag_name' | sed 's/^v//')"
+          test -n "$v" || { echo "could not resolve latest release"; exit 1; }
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
+      - name: Regenerate formula if changed
+        id: gen
+        run: |
+          set -euo pipefail
+          want="${{ steps.rel.outputs.version }}"
+          cur="$(sed -nE 's/.*version "([^"]+)".*/\1/p' Formula/dragon.rb | head -1)"
+          echo "current=$cur wanted=$want"
+          if [ "$cur" = "$want" ]; then
+            echo "formula already at $want"; echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          bash .github/scripts/gen-formula.sh "$want" "$DIST_REPO" Formula/dragon.rb
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Commit & push
+        if: steps.gen.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name "dragon-tap[bot]"
+          git config user.email "release@vellora.ai"
+          git add Formula/dragon.rb
+          git commit -m "dragon ${{ steps.rel.outputs.version }}"
+          git push
