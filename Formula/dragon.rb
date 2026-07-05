@@ -5,13 +5,13 @@
 class Dragon < Formula
   desc "AI coding agent — thin client for the Dragon Code gateway"
   homepage "https://github.com/VELLORAAI/dragoncode-public-dist"
-  version "1.4.13"
+  version "1.4.14"
   license :cannot_represent
 
   on_macos do
     on_arm do
-      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.13/dragon-darwin-arm64.zip"
-      sha256 "b2b1b6814631f8c3ba3b92a6b8e5579340a096ed4686965039d6183999b0aab2"
+      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.14/dragon-darwin-arm64.zip"
+      sha256 "5e6715468ba799555be55aaf8db4f7866afc8215a084b3bdc1b7b65f739a949f"
     end
     on_intel do
       odie "Dragon Code has no native Intel-Mac build. Use Apple Silicon, or the curl installer: https://github.com/VELLORAAI/dragoncode-public-dist"
@@ -20,12 +20,12 @@ class Dragon < Formula
 
   on_linux do
     on_arm do
-      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.13/dragon-linux-arm64.tar.gz"
-      sha256 "2686b25683cb15182aa08f67540a9b1c3050981ead9ebd0c4a2a80b529792127"
+      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.14/dragon-linux-arm64.tar.gz"
+      sha256 "b2a98ab172183dbaccb36122e653903b90f5a5a978987146a2d51cacbcb23380"
     end
     on_intel do
-      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.13/dragon-linux-x64.tar.gz"
-      sha256 "d9aa85c3a83b4a368906820249a55472c18b1dfaf5af3ad21bd2eba6a4947a28"
+      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.14/dragon-linux-x64.tar.gz"
+      sha256 "094e7bd8ab07afecbfbc7caa7942c06d988ed253ab0388fba6921f9649bc77e8"
     end
   end
 
