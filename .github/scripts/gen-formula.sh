@@ -23,9 +23,33 @@ sha() {
   else shasum -a 256 "${tmp}/${asset}" | awk '{print $1}'; fi
 }
 
+# sha of an OPTIONAL asset: empty (not a hard error) when the asset is absent,
+# so the generator self-heals — it emits a real Intel-Mac build once
+# dragon-darwin-x64.zip is published, and keeps the odie fallback before then.
+sha_optional() {
+  local asset="$1"
+  if curl -fsSL "${BASE}/${asset}" -o "${tmp}/${asset}" 2>/dev/null; then
+    if command -v sha256sum >/dev/null 2>&1; then sha256sum "${tmp}/${asset}" | awk '{print $1}';
+    else shasum -a 256 "${tmp}/${asset}" | awk '{print $1}'; fi
+  fi
+}
+
 DARWIN_ARM64="$(sha "dragon-darwin-arm64.zip")"
+DARWIN_X64="$(sha_optional "dragon-darwin-x64.zip")"
 LINUX_ARM64="$(sha "dragon-linux-arm64.tar.gz")"
 LINUX_X64="$(sha "dragon-linux-x64.tar.gz")"
+
+# Intel-Mac block: a real url/sha once the asset exists, else the odie fallback.
+if [ -n "$DARWIN_X64" ]; then
+  MAC_INTEL="    on_intel do
+      url \"${BASE}/dragon-darwin-x64.zip\"
+      sha256 \"${DARWIN_X64}\"
+    end"
+else
+  MAC_INTEL="    on_intel do
+      odie \"Dragon Code has no native Intel-Mac build for this release yet. Use Apple Silicon, or the curl installer: https://github.com/${DIST_REPO}\"
+    end"
+fi
 
 mkdir -p "$(dirname "$OUT")"
 
@@ -46,9 +70,7 @@ class Dragon < Formula
       url "${BASE}/dragon-darwin-arm64.zip"
       sha256 "${DARWIN_ARM64}"
     end
-    on_intel do
-      odie "Dragon Code has no native Intel-Mac build. Use Apple Silicon, or the curl installer: https://github.com/${DIST_REPO}"
-    end
+${MAC_INTEL}
   end
 
   on_linux do
@@ -87,4 +109,4 @@ cat >> "$OUT" <<EOF
 end
 EOF
 
-echo "wrote $OUT (darwin-arm64=$DARWIN_ARM64 linux-arm64=$LINUX_ARM64 linux-x64=$LINUX_X64; man=$( [ -f "$MAN_SRC" ] && echo yes || echo MISSING ))"
+echo "wrote $OUT (darwin-arm64=$DARWIN_ARM64 darwin-x64=${DARWIN_X64:-<none>} linux-arm64=$LINUX_ARM64 linux-x64=$LINUX_X64; man=$( [ -f "$MAN_SRC" ] && echo yes || echo MISSING ))"
