@@ -5,28 +5,28 @@
 class Dragon < Formula
   desc "AI coding agent — thin client for the Dragon Code gateway"
   homepage "https://github.com/VELLORAAI/dragoncode-public-dist"
-  version "1.4.31"
+  version "1.4.32"
   license :cannot_represent
 
   on_macos do
     on_arm do
-      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.31/dragon-darwin-arm64.zip"
-      sha256 "f07b93f92c07b07ad69b8a612f403d86a24901b092c3342bdf042359df089d0e"
+      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.32/dragon-darwin-arm64.zip"
+      sha256 "6dcf53d3fd0fe2dfc2b48e50ff918fba23bd982177c9ffbf0406e239c685ae68"
     end
     on_intel do
-      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.31/dragon-darwin-x64.zip"
-      sha256 "330648e1ebd895fe1aef07ea4a4ab2719140b40af6c665914d0dbf764c0affba"
+      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.32/dragon-darwin-x64.zip"
+      sha256 "b12c224df3e0651e01d2c436745551cb422de364f622450e106711be04652e4b"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.31/dragon-linux-arm64.tar.gz"
-      sha256 "003c14c41b3b8c5852ec4bc15056b8992559b552a19406fbd302eba9a749f927"
+      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.32/dragon-linux-arm64.tar.gz"
+      sha256 "b0606acb5d3c57c03cee1768e83c787d1fcb8ab7af58539d0cbedca1cb33dc2b"
     end
     on_intel do
-      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.31/dragon-linux-x64.tar.gz"
-      sha256 "27360612693f3b82da5276a7938820e10575256f5cba171319a86558ad1fc97e"
+      url "https://github.com/VELLORAAI/dragoncode-public-dist/releases/download/v1.4.32/dragon-linux-x64.tar.gz"
+      sha256 "a88542e76edae362d45b0bfa21ea4b1fbceab75caa9faccc7bdd8fb8cb771d40"
     end
   end
 
